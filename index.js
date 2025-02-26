@@ -5,8 +5,8 @@ const orsApiKey = process.env.ORS_API_KEY;  // API gratuita do OpenRouteService
 const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.CHAT_ID;
 
-const origem = [-45.5553, -23.0263]; // Longitude, Latitude de Taubaté
-const destino = [-45.8872, -23.1896]; // Longitude, Latitude de São José dos Campos
+const origem = process.env.ORIGEM; // Longitude, Latitude de Origem
+const destino = process.env.DESTINO; // Longitude, Latitude de Destino
 
 async function verificarTrafego() {
   const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${orsApiKey}&start=${origem[0]},${origem[1]}&end=${destino[0]},${destino[1]}`;
@@ -16,7 +16,7 @@ async function verificarTrafego() {
     const rota = response.data.routes[0];
     const duracao = rota.summary.duration / 60; // Converter segundos para minutos
 
-    if (duracao > 50) { // Se o tempo de viagem for maior que 50 min, alertar
+    if (duracao > process.env.TEMPO_NORMAL) { // Se o tempo de viagem for maior que o tempo normal em min, alertar
       await enviarAlerta(`⚠️ Atraso detectado! Tempo estimado: ${Math.round(duracao)} min.`);
     } else {
       console.log("Tráfego dentro do normal.");
