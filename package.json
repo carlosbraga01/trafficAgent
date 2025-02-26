@@ -8,11 +8,15 @@
   },
   "dependencies": {
     "axios": "^1.6.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "puppeteer": "^24.3.0"
   },
-  "devDependencies": {},
   "type": "module",
-  "keywords": ["trafego", "telegram", "openrouteservice"],
+  "keywords": [
+    "trafego",
+    "telegram",
+    "openrouteservice"
+  ],
   "author": "Seu Nome",
   "license": "MIT"
 }

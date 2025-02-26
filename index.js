@@ -1,40 +1,59 @@
+import puppeteer from "puppeteer";
 import axios from "axios";
 import "dotenv/config";
 
 // Configurações
-const orsApiKey = process.env.ORS_API_KEY;
 const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.CHAT_ID;
+const googleMapsLink = "https://maps.app.goo.gl/bo9EUYFq6Ju8kd6E6"; // Link para o Google Maps
 
-const origem = [-45.603132, -23.064491]; // Longitude, Latitude de Origem
-const destino = [-45.551189, -23.018531]; // Longitude, Latitude de Destino
-
-if (!orsApiKey || !telegramBotToken || !chatId) {
+if (!telegramBotToken || !chatId) {
   console.error("Erro: Variáveis de ambiente não definidas.");
   process.exit(1);
 }
 
 async function verificarTrafego() {
-  const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${orsApiKey}&start=${origem[0]},${origem[1]}&end=${destino[0]},${destino[1]}`;
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
 
-  try {
-    const response = await axios.get(url);
-    const rota = response.data.features[0].properties;
-    const duracao = rota.summary.duration / 60; // Converter segundos para minutos
+  // Acessar o link do Google Maps
+  await page.goto(googleMapsLink, { waitUntil: "networkidle2" });
 
-    if (duracao > 16) {
-      // Se o tempo de viagem for maior que o tempo normal em min, alertar
-      await enviarAlerta(
-        `⚠️ Atraso detectado! Tempo estimado: ${Math.round(duracao)} min.`
-      );
-    } else {
-      console.log("✅ Tráfego dentro do normal.");
-    }
-  } catch (error) {
-    console.error(
-      "❌ Erro ao verificar o tráfego:",
-      error.response?.data || error.message
+  // Esperar a página carregar e executar XPath manualmente
+  const duracao = await page.evaluate(() => {
+    const xpath =
+      '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[2]/div[1]/h1/span/span[1]';
+    const resultado = document.evaluate(
+      xpath,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
     );
+    return resultado.singleNodeValue
+      ? resultado.singleNodeValue.textContent
+      : null;
+  });
+
+  if (!duracao) {
+    console.error("❌ Erro: Não foi possível encontrar o tempo de trajeto.");
+    await browser.close();
+    return;
+  }
+
+  // Extrair apenas os números da duração (minutos)
+  const minutos = parseInt(duracao.replace(/\D/g, ""), 10);
+
+  // Fechar o navegador
+  await browser.close();
+
+  if (minutos > 16) {
+    await enviarAlerta(`⚠️ Atraso detectado! Tempo estimado: ${minutos} min.`);
+  } else {
+    await enviarAlerta(
+      `✅ Tráfego dentro do normal. Tempo estimado: ${minutos} min.`
+    );
+    console.log("✅ Tráfego dentro do normal.");
   }
 }
 
