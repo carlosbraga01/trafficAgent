@@ -1,8 +1,18 @@
 {
-  "name": "trafficAgent",
+  "name": "verificador-trafego",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Script para verificar o tráfego e enviar alertas no Telegram",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
-    "axios": "^1.5.0"
-  }
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {},
+  "type": "module",
+  "keywords": ["trafego", "telegram", "openrouteservice"],
+  "author": "Seu Nome",
+  "license": "MIT"
 }
