@@ -28,7 +28,7 @@ async function verificarTrafego() {
 
 // Função para enviar alerta no Telegram
 async function enviarAlerta(mensagem) {
-  const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(mensagem)}`;
+  const url = `https://api.telegram.org/bot7610738933:AAEWpaPhnHcazSnant2IrsKlkoUJ_NRhrFM/sendMessage?chat_id=-4505960850&text=${encodeURIComponent(mensagem)}`;
   await axios.get(url);
 }
 
