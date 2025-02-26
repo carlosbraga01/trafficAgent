@@ -1,0 +1,29 @@
+name: Monitorar Tráfego
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"  # Executa a cada 10 minutos
+  workflow_dispatch:  # Permite rodar manualmente
+
+jobs:
+  check_traffic:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar o repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install axios
+
+      - name: Rodar script de monitoramento
+        run: node index.js
+        env:
+          ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
