@@ -1,7 +1,4 @@
 import axios from "axios";
-import dotenv from "dotenv";
-
-dotenv.config(); // Carregar variáveis de ambiente do arquivo .env
 
 // Configurações
 const orsApiKey = process.env.ORS_API_KEY;  
