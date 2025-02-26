@@ -2,7 +2,7 @@ name: Monitorar Tráfego
 
 on:
   schedule:
-    - cron: "*/10 * * * *"  # Executa a cada 10 minutos
+    - cron: "*/20 * * * *"  # Executa a cada 20 minutos
   workflow_dispatch:  # Permite rodar manualmente
 
 jobs:
