@@ -5,8 +5,8 @@ const orsApiKey = process.env.ORS_API_KEY;  // API gratuita do OpenRouteService
 const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.CHAT_ID;
 
-const origem = process.env.ORIGEM; // Longitude, Latitude de Origem
-const destino = process.env.DESTINO; // Longitude, Latitude de Destino
+const origem = [-45.603132,-23.064491]; // Longitude, Latitude de Origem
+const destino = [-45.551189,-23.018531]; // Longitude, Latitude de Destino
 
 async function verificarTrafego() {
   const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${orsApiKey}&start=${origem[0]},${origem[1]}&end=${destino[0]},${destino[1]}`;
