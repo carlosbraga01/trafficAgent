@@ -28,6 +28,9 @@ async function verificarTrafego() {
         `⚠️ Atraso detectado! Tempo estimado: ${Math.round(duracao)} min.`
       );
     } else {
+      await enviarAlerta(
+        `✅ Tráfego dentro do normal. Tempo estimado: ${Math.round(duracao)} min.`
+      );
       console.log("✅ Tráfego dentro do normal.");
     }
   } catch (error) {
