@@ -9,14 +9,14 @@ const origem = [-45.603132,-23.064491]; // Longitude, Latitude de Origem
 const destino = [-45.551189,-23.018531]; // Longitude, Latitude de Destino
 
 async function verificarTrafego() {
-  const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${orsApiKey}&start=${origem[0]},${origem[1]}&end=${destino[0]},${destino[1]}`;
+  const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b3e33e17e36f4053851a61f7de6441f7&start=${origem[0]},${origem[1]}&end=${destino[0]},${destino[1]}`;
 
   try {
     const response = await axios.get(url);
     const rota = response.data.routes[0];
     const duracao = rota.summary.duration / 60; // Converter segundos para minutos
 
-    if (duracao > process.env.TEMPO_NORMAL) { // Se o tempo de viagem for maior que o tempo normal em min, alertar
+    if (duracao > 17) { // Se o tempo de viagem for maior que o tempo normal em min, alertar
       await enviarAlerta(`⚠️ Atraso detectado! Tempo estimado: ${Math.round(duracao)} min.`);
     } else {
       console.log("Tráfego dentro do normal.");
