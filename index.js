@@ -50,12 +50,10 @@ async function verificarTrafego() {
   // Fechar o navegador
   await browser.close();
 
-  if (minutos > 16) {
+  if (minutos > 18) {
     await enviarAlerta(`⚠️ Atraso detectado! Tempo estimado: ${minutos} min.`);
   } else {
-    await enviarAlerta(
-      `✅ Tráfego dentro do normal. Tempo estimado: ${minutos} min.`
-    );
+    //await enviarAlerta(`✅ Tráfego dentro do normal. Tempo estimado: ${minutos} min.`);
     console.log("✅ Tráfego dentro do normal.");
   }
 }
