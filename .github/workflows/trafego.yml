@@ -2,7 +2,9 @@ name: Monitorar Tráfego
 
 on:
   schedule:
-    - cron: "*/20 * * * *"  # Executa a cada 20 minutos
+    # Rodar a cada 20 minutos, de segunda a sexta (seg-sex = 1-5)
+    - cron: "*/20 11-13 * * 1-5"
+    - cron: "*/20 16-18 * * 1-5"
   workflow_dispatch:  # Permite rodar manualmente
 
 jobs:
@@ -19,7 +21,10 @@ jobs:
           node-version: 18
 
       - name: Instalar dependências
-        run: npm install axios
+        run: npm install
+
+      - name: Instalar Puppeteer
+        run: npm install puppeteer
 
       - name: Rodar script de monitoramento
         run: node index.js
