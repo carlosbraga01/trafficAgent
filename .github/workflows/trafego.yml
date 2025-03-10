@@ -2,9 +2,9 @@ name: Monitorar Tráfego
 
 on:
   schedule:
-    # Rodar a cada 20 minutos, de segunda a sexta (seg-sex = 1-5)
-    - cron: "*/20 11-13 * * 1-5"
-    - cron: "*/20 16-18 * * 1-5"
+    # Executa a cada 20 minutos, de segunda a sexta (1-5), nos horários de Brasília (convertidos para UTC)
+    - cron: "*/20 14-16 * * 1-5"  # 11h-13h BRT
+    - cron: "*/20 19-21 * * 1-5"  # 16h-18h BRT
   workflow_dispatch:  # Permite rodar manualmente
 
 jobs:
